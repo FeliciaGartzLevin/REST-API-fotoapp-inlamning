@@ -18,4 +18,6 @@ router.get('/', (req, res) => {
  */
 // router.use('/resource', resource)
 
+// router.use('/resource', resource)
+
 export default router
