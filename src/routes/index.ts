@@ -1,5 +1,8 @@
+import albums from './albums'
+import photos from './photos'
+import profile from './profile'
 import express from "express"
-import resource from './_router'
+// import resource from './_router'
 
 // instantiate a new router
 const router = express.Router()
@@ -13,11 +16,34 @@ router.get('/', (req, res) => {
 	})
 })
 
-/**
- * [EXAMPLE] /resource
+/** 
+ * /albums of photos from user profile
  */
-// router.use('/resource', resource)
+router.use('/albums', /* validateToken, */ albums)
 
-// router.use('/resource', resource)
+/**
+ * /photos from user profile
+*/
+router.use('/photos', /* validateToken, */ photos)
+
+/**
+ * /user
+ */
+router.use('/profile', /* validateToken, */ profile)
+
+// /**
+//  * POST /login to profile
+//  */
+// router.post('/login', login)
+
+// /**
+//  * POST /refresh the profile login
+//  */
+// router.post('/refresh', refresh)
+
+// /**
+//  * POST /register a profile
+//  */
+// router.post('/register', /* createUserRules, */ register)
 
 export default router
