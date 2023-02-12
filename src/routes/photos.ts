@@ -4,6 +4,7 @@
 import express from 'express'
 import { body } from 'express-validator'
 import { index, show, store, update, destroy } from '../controllers/_controller'
+import { createPhotoRules } from '../validations/photo_rules'
 const router = express.Router()
 
 /**
@@ -22,7 +23,7 @@ router.get('/:photoId', show)
  * POST /photo
  * 	Create a new photo
  */
-router.post('/', [], store)
+router.post('/', createPhotoRules, store)
 
 /**
  * PATCH /photo/:photoId
