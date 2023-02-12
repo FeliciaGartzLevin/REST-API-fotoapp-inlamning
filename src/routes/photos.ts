@@ -7,27 +7,32 @@ import { index, show, store, update, destroy } from '../controllers/_controller'
 const router = express.Router()
 
 /**
- * GET /photo
+ * GET /photos
+ * 	Get all photos
  */
 router.get('/', index)
 
 /**
  * GET /photo/:photoId
+ * Get a single photo
  */
 router.get('/:photoId', show)
 
 /**
  * POST /photo
+ * 	Create a new photo
  */
 router.post('/', [], store)
 
 /**
  * PATCH /photo/:photoId
+ * Update a photo
  */
 router.patch('/:photoId', [], update)
 
 /**
- * DELETE /photo/:photoId
+ * ([VG]:) DELETE /photo/:photoId
+ * 	Delete a photo
  */
 router.delete('/:photoId', destroy)
 

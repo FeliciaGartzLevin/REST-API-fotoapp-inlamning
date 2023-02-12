@@ -1,33 +1,46 @@
 /**
- * Albums Router
+ * Photo Albums Router
  */
 import express from 'express'
 import { body } from 'express-validator'
-import { index, show, store, update, destroy } from '../controllers/_controller'
+import { index, show, store, update, destroy } from '../controllers/album_controller'
 const router = express.Router()
 
 /**
- * GET /album
+ * GET /albums
+ * Get all albums
  */
 router.get('/', index)
 
 /**
- * GET /album/:albumId
+ * GET /albums/:albumId
+ * Get a single album
  */
 router.get('/:albumId', show)
 
 /**
- * POST /album
+ * POST /albums ([VG]: add muliple at once)
+ * Create a (or more) new album(s)
  */
 router.post('/', [], store)
 
 /**
- * PATCH /album/:albumId
+ * PATCH /albums/:albumId
+ * Update an album
  */
 router.patch('/:albumId', [], update)
 
 /**
- * DELETE /album/:albumId
+ * ([VG]:)
+ * DELETE /albums/:albumId/photos/:photoId
+ * Remove a photo from an album
+ */
+router.delete('/:albumId/photos/:photoId', destroy /* ? */)
+
+/**
+ * ([VG]:)
+ * DELETE /albums/:albumId 
+ * 	Delete an album
  */
 router.delete('/:albumId', destroy)
 
