@@ -9,7 +9,8 @@ export const createPhotoRules = [
 	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers'),
 	body('url').exists().isURL().withMessage('URL has to a valid URL-adress'),
     body('comment').isString().withMessage('Comment must be made up of letters'),
-	body('user_id').isInt().custom(async (value: number) => {
+	// body('user_email').isEmail().withMessage('Must be a valid email-adress'),
+	 body('user_id').isInt().custom(async (value: number) => {
 		// check if a User with that id exists
         // I can later use this from user_services as a callback function
 		const user = await prisma.user.findUnique({
@@ -22,7 +23,7 @@ export const createPhotoRules = [
 			// if user doesn't exist, 
 			return Promise.reject("No user with that id exists")
 		}
-	}),
+	}) ,
 ]
 /*
 export const updateUserRules = [

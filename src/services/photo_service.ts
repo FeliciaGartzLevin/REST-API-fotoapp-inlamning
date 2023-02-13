@@ -32,11 +32,11 @@ export const getPhoto = async (photoId: number) => {
  */
 export const createPhoto = async (data: CreatePhotoData) => {
 	return await prisma.photo.create({
-		data: data /* {
+		data: /* data */  {
 			title: data.title,
 			url: data.url,
-			comment: data.comment	
-			user_id: {connect {}}
-		} */
+			comment: data.comment,	
+			user_email: data.user_email,
+		} 
 	})
 }

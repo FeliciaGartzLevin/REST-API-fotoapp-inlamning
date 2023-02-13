@@ -3,7 +3,7 @@
  */
 import express from 'express'
 import { body } from 'express-validator'
-import { index, show, store, update, destroy } from '../controllers/_controller'
+import { index, show, store, update, destroy } from '../controllers/photo_controller'
 import { createPhotoRules } from '../validations/photo_rules'
 const router = express.Router()
 
