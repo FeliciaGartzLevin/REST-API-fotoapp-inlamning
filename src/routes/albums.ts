@@ -8,25 +8,25 @@ import { index, show, store, update, destroy } from '../controllers/album_contro
 const router = express.Router()
 
 /**
- * GET /albums
+ * GET /albums logik:✅ funkar:❔
  * Get all albums
  */
 router.get('/', index)
 
 /**
- * GET /albums/:albumId
+ * GET /albums/:albumId logik:✅ funkar:❔
  * Get a single album
  */
 router.get('/:albumId', show)
 
 /**
- * POST /albums ([VG]: add muliple at once)
+ * POST /albums ([VG]: add muliple at once) logik (för 1st):✅ funkar:❔
  * Create a (or more) new album(s)
  */
 router.post('/', createAlbumRules, store)
 
 /**
- * PATCH /albums/:albumId
+ * PATCH /albums/:albumId logik:✅ funkar:❔
  * Update an album
  */
 router.patch('/:albumId', [], update)

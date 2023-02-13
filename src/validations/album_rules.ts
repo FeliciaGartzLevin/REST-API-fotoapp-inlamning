@@ -22,3 +22,7 @@ export const createAlbumRules = [
 		}
 	}) ,
 ]
+
+export const updateAlbumRules = [
+	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers'),
+]

@@ -6,9 +6,9 @@ import prisma from '../prisma'
 // import { getUserById } from '../services/user_service'
 
 export const createPhotoRules = [
-	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers'),
-	body('url').exists().isURL().withMessage('URL has to a valid URL-adress'),
-    body('comment').isString().withMessage('Comment must be made up of letters'),
+	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
+	body('url').exists().isURL().withMessage('URL has to be a valid URL-adress'),
+    body('comment').isString().withMessage('Comment must be made up of letters').bail().isLength({min:3}).withMessage('Comment must be at least 3 chars long'),
 	// body('user_email').isEmail().withMessage('Must be a valid email-adress'),
 	 body('user_id').isInt().custom(async (value: number) => {
 		// check if a User with that id exists
@@ -25,6 +25,12 @@ export const createPhotoRules = [
 		}
 	}) ,
 ]
+
+export const updatePhotoRules = [
+	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
+    body('comment').isString().withMessage('Comment must be made up of letters').bail().isLength({min:3}).withMessage('Comment must be at least 3 chars long'),
+]
+
 /*
 export const updateUserRules = [
 	body('name').optional().isString().bail().isLength({ min: 3 }),
