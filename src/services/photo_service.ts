@@ -36,7 +36,7 @@ export const createPhoto = async (data: CreatePhotoData) => {
 			title: data.title,
 			url: data.url,
 			comment: data.comment,	
-			user_email: data.user_email,
+			user_id: data.user_id,
 		} 
 	})
 }

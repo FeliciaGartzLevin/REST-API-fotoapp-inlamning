@@ -6,8 +6,12 @@ export type CreatePhotoData = {
 	title: string,
 	url: string,
 	comment?: string,
-	user_email: string,
+	user_id: number,
 
+}
+
+export type CreateAlbumData = {
+	title: string,
 }
 
 export type CreateUserData = {

@@ -3,7 +3,7 @@
  */
 import Debug from 'debug'
 import { Request, Response } from 'express'
-import { validationResult } from 'express-validator'
+import { matchedData, validationResult } from 'express-validator'
 import prisma from '../prisma'
 import { getPhoto, getPhotos, createPhoto } from '../services/photo_service'
 
@@ -32,7 +32,7 @@ export const index = async (req: Request, res: Response) => {
  * Get a single photo
  */
 export const show = async (req: Request, res: Response) => {
-    const photoId = Number(req.params.bookId)
+    const photoId = Number(req.params.photoId)
 
 	try {
 		const photo = await getPhoto(photoId)
@@ -52,8 +52,25 @@ export const show = async (req: Request, res: Response) => {
  * Create a photo
  */
 export const store = async (req: Request, res: Response) => {
-    try {
-		const photo = await createPhoto(req.body)
+    // Check for validation errors
+	const validationErrors = validationResult(req)
+	if (!validationErrors.isEmpty()) {
+		return res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
+		})
+	}
+
+	// Get only the validated data from the request
+	const validatedData = matchedData(req)
+
+	try {
+		const photo = await createPhoto({
+			title: validatedData.title,
+			url: validatedData.url,
+			comment: validatedData.comment,
+			user_id: validatedData.user_id,
+		})
 
 		res.send({
 			status: "success",

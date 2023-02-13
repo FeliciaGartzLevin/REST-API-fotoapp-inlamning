@@ -1,39 +1,45 @@
 /**
- * Author Service
+ * Album Service
  */
 import prisma from '../prisma'
-import { CreateAuthorData } from "../types"
+import { CreateAlbumData } from "../types"
 
 /**
- * Get all authors
+ * Get all albums
  */
-export const getAuthors = async () => {
-	return await prisma.author.findMany()
-}
-
-/**
- * Get a single author
- *
- * @param authorId The id of the author to get
- */
-export const getAuthor = async (authorId: number) => {
-	return await prisma.author.findUniqueOrThrow({
-		where: {
-			id: authorId,
-		},
-		include: {
-			books: true,
+export const getAlbums = async () => {
+	return await prisma.album.findMany({
+		select: {
+			id: true,
+			title: true,
+			user_id: true,
 		}
 	})
 }
 
 /**
- * Create a author
+ * Get a single album
  *
- * @param data Author Details
+ * @param albumId The id of the album to get
  */
-export const createAuthor = async (data: CreateAuthorData) => {
-	return await prisma.author.create({
+export const getAlbum = async (albumId: number) => {
+	prisma.album.findUniqueOrThrow({
+		where: {
+			id: albumId,
+		},
+		include: {
+			photos: true,
+		}
+	})
+}
+
+/**
+ * Create an album
+ *
+ * @param data Album Details
+ */
+export const createAlbum = async (data: CreateAlbumData) => {
+	return await prisma.album.create({
 		data: {
 			name: data.name,
 		}
