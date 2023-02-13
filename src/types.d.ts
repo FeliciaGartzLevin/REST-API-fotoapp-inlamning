@@ -7,12 +7,13 @@ export type CreatePhotoData = {
 	url: string,
 	comment?: string,
 	user_id: number,
-
 }
 
 export type CreateAlbumData = {
 	title: string,
+	user_id: number,
 }
+
 
 export type CreateUserData = {
 	name: string,
@@ -26,4 +27,14 @@ export type JwtPayload = {
 	email: string,
 	iat?: number,
 	exp?: number,
+}
+
+export type UpdateAlbumData = {
+	title: string,
+}
+
+export type UpdatePhotoData = {
+	title?: string,
+	url?: string,
+	comment?: string,
 }

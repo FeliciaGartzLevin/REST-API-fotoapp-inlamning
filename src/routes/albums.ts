@@ -2,7 +2,8 @@
  * Photo Albums Router
  */
 import express from 'express'
-import { body } from 'express-validator'
+import { createAlbumRules } from '../validations/album_rules'
+
 import { index, show, store, update, destroy } from '../controllers/album_controller'
 const router = express.Router()
 
@@ -22,7 +23,7 @@ router.get('/:albumId', show)
  * POST /albums ([VG]: add muliple at once)
  * Create a (or more) new album(s)
  */
-router.post('/', [], store)
+router.post('/', createAlbumRules, store)
 
 /**
  * PATCH /albums/:albumId
