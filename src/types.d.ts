@@ -14,16 +14,15 @@ export type CreateAlbumData = {
 	user_id: number,
 }
 
-
 export type CreateUserData = {
-	name: string,
+	first_name: string,
+	last_name: string,
 	email: string,
 	password: string,
 }
 
 export type JwtPayload = {
 	sub: number,
-	name: string,
 	email: string,
 	iat?: number,
 	exp?: number,
@@ -37,4 +36,10 @@ export type UpdatePhotoData = {
 	title?: string,
 	url?: string,
 	comment?: string,
+}
+
+export type UpdateUserData = {
+	name?: string,
+	email?: string,
+	password?: string,
 }

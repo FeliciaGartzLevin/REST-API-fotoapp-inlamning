@@ -2,7 +2,7 @@ import albums from './albums'
 import photos from './photos'
 import profile from './profile'
 import express from "express"
-// import resource from './_router'
+import { register } from '../controllers/user_controller'
 
 // instantiate a new router
 const router = express.Router()
@@ -31,9 +31,9 @@ router.use('/photos', /* validateToken, */ photos)
  */
 router.use('/profile', /* validateToken, */ profile)
 
-// /**
-//  * POST /login to profile
-//  */
+/**
+ * POST /login to profile
+ */
 // router.post('/login', login)
 
 // /**
@@ -41,9 +41,9 @@ router.use('/profile', /* validateToken, */ profile)
 //  */
 // router.post('/refresh', refresh)
 
-// /**
-//  * POST /register a profile
-//  */
-// router.post('/register', /* createUserRules, */ register)
+/**
+ * POST /register a profile
+ */
+router.post('/register', /* createUserRules, */ register)
 
 export default router

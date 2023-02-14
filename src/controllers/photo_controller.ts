@@ -65,12 +65,12 @@ export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData(req)
 
 	try {
-		const photo = await createPhoto({
+		const photo = await createPhoto( validatedData.body /* {
 			title: validatedData.title,
 			url: validatedData.url,
 			comment: validatedData.comment,
 			user_id: validatedData.user_id,
-		})
+		} */)
 
 		res.send({
 			status: "success",

@@ -6,8 +6,8 @@ import prisma from '../prisma'
 // import { getUserById } from '../services/user_service'
 
 export const createAlbumRules = [
-	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers'),
-    body('user_id').exists().isInt().withMessage('user_id has to be a number').custom(async (value: number) => {
+	body('title').exists().withMessage('Title is required').isString().withMessage('Title has to be made up of letters or numbers'),
+    body('user_id').exists().withMessage('user_id is required').isInt().withMessage('user_id has to be a number').custom(async (value: number) => {
 		// check if a User with that id exists
         // I can later use this from user_services as a callback function
 		const user = await prisma.user.findUnique({
@@ -24,5 +24,5 @@ export const createAlbumRules = [
 ]
 
 export const updateAlbumRules = [
-	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers'),
+	body('title').exists().withMessage('Title is required').isString().withMessage('Title has to be made up of letters or numbers'),
 ]
