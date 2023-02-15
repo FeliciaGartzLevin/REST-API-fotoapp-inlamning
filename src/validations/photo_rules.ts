@@ -9,7 +9,7 @@ import Debug from 'debug'
 const debug = Debug('mi-REST-API-fotoapp:photo_rules')
 
 
-export const createPhotoRules: any[] = [
+export const createPhotoRules = [
 	body('title').exists().withMessage('Title is required').isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
 	body('url').exists().withMessage('URL is required').isURL().withMessage('URL has to be a valid URL-adress'),
     body('comment').optional().isString().withMessage('Comment must be made up of letters').bail().isLength({min:3}).withMessage('Comment must be at least 3 chars long'),
@@ -25,15 +25,15 @@ export const createPhotoRules: any[] = [
 		}
 	}) ,
 
-	debug("Error thrown when validating photo", Error)
+	// debug("Error thrown when validating photo", Error)
 
 ]
 
-export const updatePhotoRules: any[] = [
-	body('title').optional().withMessage('Title is required').isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
+export const updatePhotoRules = [
+	body('title').optional().isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
     body('comment').optional().isString().withMessage('Comment must be made up of letters').bail().isLength({min:3}).withMessage('Comment must be at least 3 chars long'),
 
-	debug("Error thrown when validating photo", Error)
+	// debug("Error thrown when validating photo", Error)
 ]
 
 /*

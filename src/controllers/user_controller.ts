@@ -12,7 +12,10 @@ import { createUser, getUserByEmail } from './../services/user_service';
 const debug = Debug('mi-REST-API-fotoapp:user_controller')
 
 /**
- * Login a user
+ * 
+ * @param req.body, det som skickas in till servern (body i POSTman)
+ * @param res, responsen från servern
+ * @returns en användare eller null
  */
 export const login = async (req: Request, res: Response) => {
 	// destructure email and password from request body
@@ -23,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
 	if (!user) {
 		return res.status(401).send({
 			status: "fail",
-			message: "Authorization required",
+			message: "Can't find any user with that email.",
 		})
 	}
 
@@ -32,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
 	if (!result) {
 		return res.status(401).send({
 			status: "fail",
-			message: "Authorization required",
+			message: "Wrong password.",
 		})
 	}
 

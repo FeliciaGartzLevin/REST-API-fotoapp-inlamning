@@ -2,7 +2,7 @@ import albums from './albums'
 import photos from './photos'
 import profile from './profile'
 import express from "express"
-import { register } from '../controllers/user_controller'
+import { login, register } from '../controllers/user_controller'
 import { createUserRules } from '../validations/user_rules'
 
 // instantiate a new router
@@ -35,7 +35,7 @@ router.use('/profile', /* validateToken, */ profile)
 /**
  * POST /login to profile
  */
-// router.post('/login', login)
+router.post('/login', login)
 
 // /**
 //  * POST /refresh the profile login

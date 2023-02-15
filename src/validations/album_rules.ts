@@ -10,7 +10,7 @@ const debug = Debug('mi-REST-API-fotoapp:album_rules')
 
 
 
-export const createAlbumRules: any[] = [
+export const createAlbumRules = [
 	body('title').exists().withMessage('Title is required').isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
     body('user_id').exists().withMessage('user_id is required').isInt().withMessage('user_id has to be a number').custom(async (value: number) => {
 		// check if a User with that id exists
@@ -26,7 +26,7 @@ export const createAlbumRules: any[] = [
 
 ]
 
-export const updateAlbumRules: any[] = [
+export const updateAlbumRules = [
 	body('title').optional().isString().withMessage('Title has to be made up of letters or numbers'),
 
 	// debug("Error thrown when validating album", Error)
