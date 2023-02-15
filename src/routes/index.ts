@@ -3,6 +3,7 @@ import photos from './photos'
 import profile from './profile'
 import express from "express"
 import { register } from '../controllers/user_controller'
+import { createUserRules } from '../validations/user_rules'
 
 // instantiate a new router
 const router = express.Router()
@@ -44,6 +45,6 @@ router.use('/profile', /* validateToken, */ profile)
 /**
  * POST /register a profile
  */
-router.post('/register', /* createUserRules, */ register)
+router.post('/register', createUserRules, register)
 
 export default router

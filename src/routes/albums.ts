@@ -20,8 +20,10 @@ router.get('/', index)
 router.get('/:albumId', show)
 
 /**
- * POST /albums ([VG]: add muliple at once) logik (för 1st):✅ funkar:❔
+ * POST /albums  logik (för 1st):✅ funkar:❔
  * Create a (or more) new album(s)
+ * 
+ * ([VG]: add muliple at once)
  */
 router.post('/', createAlbumRules, store)
 

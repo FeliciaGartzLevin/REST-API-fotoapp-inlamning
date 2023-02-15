@@ -5,6 +5,16 @@ import prisma from '../prisma'
 import { CreateUserData, UpdateUserData } from '../types'
 
 /**
+ * Get a user by id
+ */
+export const getUserById = async (id: number) => {
+	return await prisma.user.findUnique({
+		where: {
+			id: id
+		}
+	})
+}
+/**
  * Get a user by email
  *
  * @param email The email of the user to get
@@ -25,6 +35,7 @@ export const getUserByEmail = async (email: string) => {
 export const createUser = async (data: CreateUserData) => {
 	return await prisma.user.create({
 		data: data,
+		// @todo: but exclude password (include password: false?)
 	})
 }
 

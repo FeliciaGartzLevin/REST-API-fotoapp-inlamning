@@ -29,7 +29,7 @@ export type JwtPayload = {
 }
 
 export type UpdateAlbumData = {
-	title: string,
+	title?: string,
 }
 
 export type UpdatePhotoData = {

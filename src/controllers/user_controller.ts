@@ -6,11 +6,10 @@ import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import prisma from '../prisma'
 import { JwtPayload } from '../types'
 import { createUser, getUserByEmail } from './../services/user_service';
 
-const debug = Debug('prisma-books:user_controller')
+const debug = Debug('mi-REST-API-fotoapp:user_controller')
 
 /**
  * Login a user
@@ -102,13 +101,22 @@ export const register = async (req: Request, res: Response) => {
 	// Store the user in the database
 	try {
 		const user = await createUser({
-			name: validatedData.name,
 			email: validatedData.email,
 			password: validatedData.password,
+			first_name: validatedData.first_name,
+			last_name: validatedData.last_name,
 		})
 
 		// Respond with 201 Created + status success
-		res.status(201).send({ status: "success", data: user })
+		res.status(201).send({ 
+			status: "success",
+			data: {
+				email: user.email,
+				first_name: user.first_name,
+				last_name: user.last_name,
+				// vill ej logga tillbaks lösenordet av säkerhetsskäl
+			}
+		})
 
 	} catch (err) {
 		return res.status(500).send({ status: "error", message: "Could not create user in database" })

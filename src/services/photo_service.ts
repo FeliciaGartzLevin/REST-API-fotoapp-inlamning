@@ -1,7 +1,6 @@
 /**
  * Photo Service
  */
-import { connect } from 'http2'
 import prisma from '../prisma'
 import { CreatePhotoData, UpdatePhotoData } from "../types"
 
