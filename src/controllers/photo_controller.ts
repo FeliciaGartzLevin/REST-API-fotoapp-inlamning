@@ -4,7 +4,6 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import prisma from '../prisma'
 import { getPhoto, getPhotos, createPhoto, updatePhoto } from '../services/photo_service'
 
 // Create a new debug instance
@@ -65,12 +64,12 @@ export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData(req)
 
 	try {
-		const photo = await createPhoto( validatedData.body /* {
+		const photo = await createPhoto({
 			title: validatedData.title,
 			url: validatedData.url,
 			comment: validatedData.comment,
 			user_id: validatedData.user_id,
-		} */)
+		})
 
 		res.send({
 			status: "success",

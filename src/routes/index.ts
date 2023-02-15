@@ -1,9 +1,9 @@
 import albums from './albums'
 import photos from './photos'
-import profile from './profile'
 import express from "express"
-import { login, register } from '../controllers/user_controller'
-import { createUserRules } from '../validations/user_rules'
+import { validateToken } from '../middlewares/auth/jwt'
+import { login, refresh, register } from '../controllers/user_controller'
+import { createUserRules, loginUserRules } from '../validations/user_rules'
 
 // instantiate a new router
 const router = express.Router()
@@ -20,27 +20,22 @@ router.get('/', (req, res) => {
 /** 
  * /albums of photos from user profile
  */
-router.use('/albums', /* validateToken, */ albums)
+router.use('/albums', validateToken, albums)
 
 /**
  * /photos from user profile
 */
-router.use('/photos', /* validateToken, */ photos)
-
-/**
- * /user
- */
-router.use('/profile', /* validateToken, */ profile)
+router.use('/photos', validateToken, photos)
 
 /**
  * POST /login to profile
  */
-router.post('/login', login)
+router.post('/login', loginUserRules, login)
 
-// /**
-//  * POST /refresh the profile login
-//  */
-// router.post('/refresh', refresh)
+/**
+ * POST /refresh the profile login
+ */
+router.post('/refresh', refresh)
 
 /**
  * POST /register a profile

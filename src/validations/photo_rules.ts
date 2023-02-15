@@ -35,11 +35,3 @@ export const updatePhotoRules = [
 
 	// debug("Error thrown when validating photo", Error)
 ]
-
-/*
-export const updateUserRules = [
-	body('name').optional().isString().bail().isLength({ min: 3 }),
-	body('email').optional().isEmail(),
-	body('password').optional().isString().bail().isLength({ min: 6 }),
-]
- */
