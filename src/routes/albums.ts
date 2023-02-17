@@ -3,7 +3,7 @@
  */
 import express from 'express'
 import { createAlbumRules } from '../validations/album_rules'
-
+import { validateToken } from '../middlewares/auth/jwt'
 import { index, show, store, update, destroy } from '../controllers/album_controller'
 const router = express.Router()
 

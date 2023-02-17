@@ -14,7 +14,7 @@ const debug = Debug('mi-REST-API-fotoapp:photo_controller')
  */
 export const index = async (req: Request, res: Response) => {
     try {
-		const photos = await getPhotos()
+		const photos = await getPhotos(req.token!.sub)
 
 		res.send({
 			status: "success",
@@ -34,7 +34,7 @@ export const show = async (req: Request, res: Response) => {
     const photoId = Number(req.params.photoId)
 
 	try {
-		const photo = await getPhoto(photoId)
+		const photo = await getPhoto(photoId, req.token!.sub)
 
 		res.send({
 			status: "success",
@@ -68,7 +68,7 @@ export const store = async (req: Request, res: Response) => {
 			title: validatedData.title,
 			url: validatedData.url,
 			comment: validatedData.comment,
-			user_id: validatedData.user_id,
+			user_id: req.token!.sub,
 		})
 
 		res.send({
@@ -101,7 +101,7 @@ export const update = async (req: Request, res: Response) => {
     const validatedData = matchedData(req)
 
     try {
-        const photo = await updatePhoto(photoId, validatedData)
+        const photo = await updatePhoto(req.token!.sub, photoId, validatedData)
 
         res.send({
             status: "success",

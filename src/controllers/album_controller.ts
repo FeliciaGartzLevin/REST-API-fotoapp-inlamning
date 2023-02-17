@@ -15,7 +15,7 @@ const debug = Debug('mi-REST-API-fotoapp:album_controller')
  */
 export const index = async (req: Request, res: Response) => {
     try {
-		const albums = await getAlbums() 
+		const albums = await getAlbums(req.token!.sub) 
 
 		res.send({
 			status: "success",
@@ -35,7 +35,7 @@ export const show = async (req: Request, res: Response) => {
     const albumId = Number(req.params.albumId)
 
 	try {
-		const album = await getAlbum(albumId)
+		const album = await getAlbum(albumId, req.token!.sub)
 
 		res.send({
 			status: "success",
@@ -67,7 +67,7 @@ export const store = async (req: Request, res: Response) => {
     try {
 		const album = await createAlbum({
 			title: validatedData.title,
-            user_id: validatedData.user_id
+            user_id: req.token!.sub,
 		})
 
 		res.send({

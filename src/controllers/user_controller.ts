@@ -12,6 +12,7 @@ import { createUser, getUserByEmail } from './../services/user_service';
 const debug = Debug('mi-REST-API-fotoapp:user_controller')
 
 /**
+ * Login a user
  * 
  * @param req.body, det som skickas in till servern (body i POSTman)
  * @param res, responsen från servern

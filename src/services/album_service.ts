@@ -7,8 +7,11 @@ import { CreateAlbumData, UpdateAlbumData } from "../types"
 /**
  * Get all albums
  */
-export const getAlbums = async () => {
+export const getAlbums = async (sub:number) => {
 	return await prisma.album.findMany({
+		where: {
+			id: sub,
+		},
 		select: {
 			id: true,
 			title: true,
@@ -22,10 +25,11 @@ export const getAlbums = async () => {
  *
  * @param albumId The id of the album to get
  */
-export const getAlbum = async (albumId: number) => {
-	return await prisma.album.findUniqueOrThrow({
+export const getAlbum = async (albumId: number, sub: number) => {
+	return await prisma.album.findFirstOrThrow({
 		where: {
 			id: albumId,
+			user_id: sub,
 		},
 		include: {
 			photos: true,

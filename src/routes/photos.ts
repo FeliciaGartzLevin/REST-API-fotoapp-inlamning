@@ -2,8 +2,8 @@
  * Photos Router
  */
 import express from 'express'
-import { body } from 'express-validator'
 import { index, show, store, update, destroy } from '../controllers/photo_controller'
+import { validateToken } from '../middlewares/auth/jwt'
 import { createPhotoRules, updatePhotoRules } from '../validations/photo_rules'
 const router = express.Router()
 

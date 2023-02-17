@@ -7,8 +7,18 @@ import { CreatePhotoData, UpdatePhotoData } from "../types"
 /**
  * Get all photos
  */
-export const getPhotos = async () => {
-	return await prisma.photo.findMany()
+export const getPhotos = async (sub: number) => {
+	return await prisma.photo.findMany({
+		where: {
+			id: sub,
+		},
+		select: {
+			id: true,
+			title: true,
+			url: true,
+			comment: true,
+		} 
+	})
 }
 
 /**
@@ -16,11 +26,18 @@ export const getPhotos = async () => {
  *
  * @param photoId The id of the photo to get
  */
-export const getPhoto = async (photoId: number) => {
-	return await prisma.photo.findUniqueOrThrow({
+export const getPhoto = async (photoId: number, sub: number) => {
+	return await prisma.photo.findFirstOrThrow({
 		where: {
 			id: photoId,
+			user_id: sub,
 		},
+		select: {
+			id: true,
+			title: true,
+			url: true,
+			comment: true,
+		} 
 	})
 }
 
@@ -40,11 +57,22 @@ export const createPhoto = async (data: CreatePhotoData) => {
 	})
 }
 
-export const updatePhoto = async (photoId: number, data: UpdatePhotoData) => {
-	return await prisma.photo.update({
+export const updatePhoto = async (sub: number, photoId: number, data: UpdatePhotoData) => {
+	const foundPhoto = prisma.photo.findFirst({
 			where: {
-				id: photoId
-			},
-			data: data		
+				id: photoId,
+				user_id: sub 
+			},	
 	})
+
+	if(!foundPhoto) throw new Error (`Photo not found for id ${photoId}`)
+
+	return await prisma.photo.update({
+		where: {
+			id: photoId,
+		  },
+		  data,
+	})
+
+	
 }

@@ -23,9 +23,7 @@ export const createPhotoRules = [
 			// if user doesn't exist, 
 			return Promise.reject("No user with that id exists")
 		}
-	}) ,
-
-	// debug("Error thrown when validating photo", Error)
+	}),
 
 ]
 
@@ -33,5 +31,4 @@ export const updatePhotoRules = [
 	body('title').optional().isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('Title must be at least 3 chars long'),
     body('comment').optional().isString().withMessage('Comment must be made up of letters').bail().isLength({min:3}).withMessage('Comment must be at least 3 chars long'),
 
-	// debug("Error thrown when validating photo", Error)
 ]
