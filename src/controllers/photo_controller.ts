@@ -1,6 +1,7 @@
 /**
  * Photo Controller
  */
+import { NotFoundError } from '@prisma/client/runtime'
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
@@ -101,7 +102,8 @@ export const update = async (req: Request, res: Response) => {
     const validatedData = matchedData(req)
 
     try {
-        const photo = await updatePhoto(req.token!.sub, photoId, validatedData)
+		const foundPhotoId = await getPhoto(photoId, req.token!.sub)
+        const photo = await updatePhoto(req.token!.sub, foundPhotoId.id, validatedData)
 
         res.send({
             status: "success",

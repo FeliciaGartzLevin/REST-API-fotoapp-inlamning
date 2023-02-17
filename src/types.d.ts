@@ -2,6 +2,10 @@
  * Type Definitions
  */
 
+export type connectPhotoData = {
+	photo_id: number,
+}
+
 export type CreatePhotoData = {
 	title: string,
 	url: string,
@@ -20,6 +24,7 @@ export type CreateUserData = {
 	email: string,
 	password: string,
 }
+
 
 export type JwtPayload = {
 	sub: number,

@@ -118,7 +118,6 @@ export const register = async (req: Request, res: Response) => {
 				email: user.email,
 				first_name: user.first_name,
 				last_name: user.last_name,
-				// vill ej logga tillbaks lösenordet av säkerhetsskäl
 			}
 		})
 

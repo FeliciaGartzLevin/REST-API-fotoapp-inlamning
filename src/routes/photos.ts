@@ -9,31 +9,31 @@ const router = express.Router()
 
 /**
  * GET /photos logik:✅ funkar:❔
- * 	Get all photos
+ * 	Get all photos for the authorized user
  */
 router.get('/', index)
 
 /**
  * GET /photo/:photoId logik:✅ funkar:❔
- * Get a single photo
+ * Get a single photo for the authorized user
  */
 router.get('/:photoId', show)
 
 /**
  * POST /photo logik:✅ funkar:❔
- * 	Create a new photo
+ * 	Create a new photo for the authorized user
  */
 router.post('/', createPhotoRules, store)
 
 /**
- * PATCH /photo/:photoId logik:✅ funkar:❔
- * Update a photo
+ * PATCH /photo/:photoId logik:✅ funkar: ✅ 
+ * Update a photo for the authorized user
  */
 router.patch('/:photoId', updatePhotoRules, update)
 
 /**
  * ([VG]:) DELETE /photo/:photoId 
- * 	Delete a photo
+ * 	Delete a photo for the authorized user
  */
 router.delete('/:photoId', destroy)
 

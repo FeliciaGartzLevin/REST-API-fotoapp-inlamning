@@ -2,7 +2,7 @@
  * Album Service
  */
 import prisma from '../prisma'
-import { CreateAlbumData, UpdateAlbumData } from "../types"
+import { connectPhotoData, CreateAlbumData, UpdateAlbumData } from "../types"
 
 /**
  * Get all albums
@@ -54,18 +54,34 @@ export const createAlbum = async (data: CreateAlbumData) => {
 
 /**
  * Update an album
-
+ * 
  * @param albumId /albums/:albumId
  * @param data = validatedData from req.body
  * @returns 
  */
 export const updateAlbum = async (albumId: number, data: UpdateAlbumData) => {
 	return await prisma.album.update({
-			where: {
-				id: albumId
-			},
-			data: {
-			title: data.title,		
+		where: {
+			id: albumId
+		},
+		data	
+	})
+}
+
+/**
+ * Add a photo to an album
+ * 
+ * @param photoId of the photo the user wants to add to the album
+ * @param albumId the album to which the user want to add the photo
+ * @returns the connection made between photo and album
+ */
+export const connectPhoto = async (albumId: number, photoId: number) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId
+		},
+		data: {
+		photos: {connect: { id: photoId} }	
 		}
 	})
 }

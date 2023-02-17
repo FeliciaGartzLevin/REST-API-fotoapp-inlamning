@@ -4,14 +4,15 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { createAlbum, getAlbum, getAlbums, updateAlbum } from '../services/album_service'
+import { connectPhoto, createAlbum, getAlbum, getAlbums, updateAlbum } from '../services/album_service'
 import prisma from '../prisma'
+import { getPhoto } from '../services/photo_service'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
 
 /**
- * Get all albums
+ * Get all albums for the authorized user
  */
 export const index = async (req: Request, res: Response) => {
     try {
@@ -29,7 +30,7 @@ export const index = async (req: Request, res: Response) => {
 }
 
 /**
- * Get a single album
+ * Get a single album for the authorized user
  */
 export const show = async (req: Request, res: Response) => {
     const albumId = Number(req.params.albumId)
@@ -49,7 +50,7 @@ export const show = async (req: Request, res: Response) => {
 }
 
 /**
- * Create an album
+ * Create an album for the authorized user
  */
 export const store = async (req: Request, res: Response) => {
     // Check for validation errors
@@ -82,7 +83,7 @@ export const store = async (req: Request, res: Response) => {
 }
 
 /**
- * Update an album
+ * Update an album for the authorized user
  */
 export const update = async (req: Request, res: Response) => {
     const albumId = Number(req.params.albumId)
@@ -100,7 +101,8 @@ export const update = async (req: Request, res: Response) => {
     const validatedData = matchedData(req)
 
     try {
-        const album = await updateAlbum(albumId, {
+		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+        const album = await updateAlbum(foundAlbum.id, {
             title: validatedData.title  
         })
 
@@ -116,7 +118,44 @@ export const update = async (req: Request, res: Response) => {
 }
 
 /**
- * Delete an album
+ * Add a photo to an album beloning to the authorized user
+ */
+export const addToAlbum = async (req: Request, res: Response) => {
+	const albumId = Number(req.params.albumId)
+
+    // Check for validation errors
+    const validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
+        return res.status(400).send({
+            status: "fail",
+            data: validationErrors.array(),
+        })
+    }
+
+    // Get only the validated data from the request
+    const validatedData = matchedData(req)
+
+    try {
+		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+
+		// calling album service to connect photo to album in the db
+        const album = await connectPhoto(foundAlbum.id, Number(validatedData.photo_id))
+
+        res.send({
+            status: "success",
+            data: album,
+        })
+
+    } catch (err) {
+        debug("Error thrown when updating album with id %o: %o", req.params.albumId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
+}
+
+
+/**
+ * Delete an album for the authorized user
  */
 export const destroy = async (req: Request, res: Response) => {
 }
+

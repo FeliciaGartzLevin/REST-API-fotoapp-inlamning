@@ -58,14 +58,6 @@ export const createPhoto = async (data: CreatePhotoData) => {
 }
 
 export const updatePhoto = async (sub: number, photoId: number, data: UpdatePhotoData) => {
-	const foundPhoto = prisma.photo.findFirst({
-			where: {
-				id: photoId,
-				user_id: sub 
-			},	
-	})
-
-	if(!foundPhoto) throw new Error (`Photo not found for id ${photoId}`)
 
 	return await prisma.photo.update({
 		where: {
