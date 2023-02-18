@@ -20,7 +20,7 @@ router.get('/', index)
 router.get('/:photoId', show)
 
 /**
- * POST /photo logik:✅ funkar:❔
+ * POST /photo logik:✅ funkar:✅
  * 	Create a new photo for the authorized user
  */
 router.post('/', createPhotoRules, store)

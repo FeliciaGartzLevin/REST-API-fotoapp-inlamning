@@ -31,9 +31,11 @@ export const getAlbum = async (albumId: number, sub: number) => {
 			id: albumId,
 			user_id: sub,
 		},
-		include: {
+		select: {
+			id: true,
+			title: true,
 			photos: true,
-		}
+		},
 	})
 }
 

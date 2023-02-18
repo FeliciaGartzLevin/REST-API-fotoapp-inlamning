@@ -135,11 +135,11 @@ export const addToAlbum = async (req: Request, res: Response) => {
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
 
 		// calling album service to connect photo to album in the db
-        const album = await connectPhoto(foundAlbum.id, Number(validatedData.photo_id))
+        await connectPhoto(foundAlbum.id, Number(validatedData.photo_id))
 
         res.send({
             status: "success",
-            data: album,
+            data: null,
         })
 
     } catch (err) {
