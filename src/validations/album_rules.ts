@@ -8,7 +8,7 @@ export const createAlbumRules = [
 ]
 
 export const updateAlbumRules = [
-	body('title').optional().isString().withMessage('Title has to be made up of letters or numbers'),
+	body('title').exists().isString().withMessage('Title has to be made up of letters or numbers').isLength({min:3}).withMessage('title must be at least 3 letters long'),
 ]
 
 export const connectPhotoRules = [

@@ -11,7 +11,7 @@ import { getPhoto, getPhotos, createPhoto, updatePhoto } from '../services/photo
 const debug = Debug('mi-REST-API-fotoapp:photo_controller')
 
 /**
- * Get all photos
+ * Get all photos for the authorized user
  */
 export const index = async (req: Request, res: Response) => {
     try {
@@ -29,7 +29,7 @@ export const index = async (req: Request, res: Response) => {
 }
 
 /**
- * Get a single photo
+ * Get a single photo for the authorized user
  */
 export const show = async (req: Request, res: Response) => {
     const photoId = Number(req.params.photoId)
@@ -49,7 +49,7 @@ export const show = async (req: Request, res: Response) => {
 }
 
 /**
- * Create a photo
+ * Create a photo for the authorized user
  */
 export const store = async (req: Request, res: Response) => {
     // Check for validation errors
@@ -84,7 +84,7 @@ export const store = async (req: Request, res: Response) => {
 }
 
 /**
- * Update a photo
+ * Update a photo for the authorized user
  */
 export const update = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId)
@@ -103,7 +103,7 @@ export const update = async (req: Request, res: Response) => {
 
     try {
 		const foundPhotoId = await getPhoto(photoId, req.token!.sub)
-        const photo = await updatePhoto(req.token!.sub, foundPhotoId.id, validatedData)
+        const photo = await updatePhoto(foundPhotoId.id, validatedData)
 
         res.send({
             status: "success",
@@ -117,7 +117,7 @@ export const update = async (req: Request, res: Response) => {
 }
 
 /**
- * Delete a photo
+ * Delete a photo for the authorized user
  */
 export const destroy = async (req: Request, res: Response) => {
 }

@@ -5,8 +5,6 @@ import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { connectPhoto, createAlbum, getAlbum, getAlbums, updateAlbum } from '../services/album_service'
-import prisma from '../prisma'
-import { getPhoto } from '../services/photo_service'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
@@ -102,9 +100,7 @@ export const update = async (req: Request, res: Response) => {
 
     try {
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
-        const album = await updateAlbum(foundAlbum.id, {
-            title: validatedData.title  
-        })
+        const album = await updateAlbum(foundAlbum.id, validatedData)
 
         res.send({
             status: "success",

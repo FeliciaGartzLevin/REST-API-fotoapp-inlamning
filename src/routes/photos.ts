@@ -8,13 +8,13 @@ import { createPhotoRules, updatePhotoRules } from '../validations/photo_rules'
 const router = express.Router()
 
 /**
- * GET /photos logik:✅ funkar:❔
+ * GET /photos logik:✅ funkar:✅
  * 	Get all photos for the authorized user
  */
 router.get('/', index)
 
 /**
- * GET /photo/:photoId logik:✅ funkar:❔
+ * GET /photo/:photoId logik:✅ funkar:✅
  * Get a single photo for the authorized user
  */
 router.get('/:photoId', show)

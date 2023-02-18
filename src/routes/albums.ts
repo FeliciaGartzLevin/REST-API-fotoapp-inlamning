@@ -2,38 +2,38 @@
  * Photo Albums Router
  */
 import express from 'express'
-import { connectPhotoRules, createAlbumRules } from '../validations/album_rules'
+import { connectPhotoRules, createAlbumRules, updateAlbumRules } from '../validations/album_rules'
 import { validateToken } from '../middlewares/auth/jwt'
 import { index, show, store, update, destroy, addToAlbum } from '../controllers/album_controller'
 const router = express.Router()
 
 /**
- * GET /albums logik:✅ funkar:❔
+ * GET /albums logik:✅ funkar:✅
  * Get all albums
  */
 router.get('/', index)
 
 /**
- * GET /albums/:albumId logik:✅ funkar:❔
+ * GET /albums/:albumId logik:✅ funkar:✅ 
  * Get a single album
  */
 router.get('/:albumId', show)
 
 /**
- * POST /albums  logik:✅ funkar:❔
+ * POST /albums  logik:✅ funkar:✅
  * Create a new album
  * 
  */
 router.post('/', createAlbumRules, store)
 
 /**
- * PATCH /albums/:albumId logik:❌ måste göra validering funkar:❔
+ * PATCH /albums/:albumId logik:✅ funkar:✅
  * Update an album
  */
-router.patch('/:albumId', [/* add rules here */] , update)
+router.patch('/:albumId', updateAlbumRules, update)
 
 /**
- * POST	/albums/:albumId/photos	
+ * POST	/albums/:albumId/photos	logik:✅ funkar:✅
  * ([VG]: Add multiple photos an album at once)
  * 
  * Add a photo to an album for the authorized user

@@ -10,7 +10,7 @@ import { connectPhotoData, CreateAlbumData, UpdateAlbumData } from "../types"
 export const getAlbums = async (sub:number) => {
 	return await prisma.album.findMany({
 		where: {
-			id: sub,
+			user_id: sub,
 		},
 		select: {
 			id: true,
