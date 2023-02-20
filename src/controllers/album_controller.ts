@@ -148,6 +148,12 @@ export const addToAlbum = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * Delete a photo from an album for the authorized user
+ */
+export const remove = async (req: Request, res: Response) => {
+}
+
 
 /**
  * Delete an album for the authorized user

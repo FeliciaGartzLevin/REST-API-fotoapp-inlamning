@@ -32,7 +32,7 @@ router.post('/', createPhotoRules, store)
 router.patch('/:photoId', updatePhotoRules, update)
 
 /**
- * ([VG]:) DELETE /photo/:photoId 
+ * ([VG]:) DELETE /photo/:photoId logik: ✅ funkar: ✅
  * 	Delete a photo for the authorized user
  */
 router.delete('/:photoId', destroy)
