@@ -4,7 +4,7 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { connectPhoto, createAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
+import { connectPhoto, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
 import { getPhoto } from '../services/photo_service'
 
 // Create a new debug instance
@@ -167,7 +167,7 @@ export const remove = async (req: Request, res: Response) => {
         })
 
     } catch (err) {
-        debug("Error thrown when updating album with id %o: %o", req.params.albumId, err)
+        debug("Error thrown when deleting photo with id %o from album with id %o: %o", photoId, albumId, err)
         return res.status(404).send({ status: "error", message: "Not found" })
     }
 }
@@ -177,5 +177,20 @@ export const remove = async (req: Request, res: Response) => {
  * Delete an album for the authorized user
  */
 export const destroy = async (req: Request, res: Response) => {
+    const albumId = Number(req.params.albumId)
+
+	try {
+		const foundAlbumId = await getAlbum(albumId, req.token!.sub)
+        await deleteAlbum(foundAlbumId.id)
+
+        res.send({
+            status: "success",
+            data: null,
+        })
+		
+	} catch (err) {
+        debug("Error thrown when deleting album with id %o: %o", albumId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
 }
 
