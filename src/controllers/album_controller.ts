@@ -4,7 +4,8 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { connectPhoto, createAlbum, getAlbum, getAlbums, updateAlbum } from '../services/album_service'
+import { connectPhoto, createAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
+import { getPhoto } from '../services/photo_service'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
@@ -152,6 +153,23 @@ export const addToAlbum = async (req: Request, res: Response) => {
  * Delete a photo from an album for the authorized user
  */
 export const remove = async (req: Request, res: Response) => {
+    const albumId = Number(req.params.albumId)
+    const photoId = Number(req.params.photoId)
+
+    try {
+		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+        const foundPhoto = await getPhoto(photoId, req.token!.sub)
+        const album = await removePhoto(foundAlbum.id, foundPhoto.id)
+
+        res.send({
+            status: "success",
+            data: null,
+        })
+
+    } catch (err) {
+        debug("Error thrown when updating album with id %o: %o", req.params.albumId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
 }
 
 

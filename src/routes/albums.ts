@@ -44,7 +44,7 @@ router.post('/:albumId/photos', connectPhotoRules, addToAlbum)
 /**
  * ([VG]:)
  * DELETE /albums/:albumId/photos/:photoId
- * Remove a photo from an album  logik: ❔ funkar: ❔
+ * Remove a photo from an album  logik:✅ funkar:✅
  */
 router.delete('/:albumId/photos/:photoId', remove)
 
