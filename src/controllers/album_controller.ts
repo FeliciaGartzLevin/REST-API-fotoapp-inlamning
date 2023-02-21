@@ -4,8 +4,9 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { connectPhoto, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
+import { connectPhotos, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
 import { getPhoto } from '../services/photo_service'
+import { connectPhotosData } from '../types'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
@@ -115,7 +116,7 @@ export const update = async (req: Request, res: Response) => {
 }
 
 /**
- * Add a photo to an album beloning to the authorized user
+ * Add several photos to an album belonging to the authorized user
  */
 export const addToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId)
@@ -131,12 +132,18 @@ export const addToAlbum = async (req: Request, res: Response) => {
 
     // Get only the validated data from the request
     const validatedData = matchedData(req)
+    debug('The validated data: ', validatedData)
 
     try {
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
-
+        const photoIds = validatedData.photo_id.map((photoId: Number) => {
+            return {
+                id: Number(photoId),
+            }
+            
+        })
 		// calling album service to connect photo to album in the db
-        await connectPhoto(foundAlbum.id, Number(validatedData.photo_id))
+        await connectPhotos(foundAlbum.id, photoIds)
 
         res.send({
             status: "success",
