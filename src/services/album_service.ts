@@ -77,7 +77,7 @@ export const updateAlbum = async (albumId: number, data: UpdateAlbumData) => {
  * @param albumId the album to which the user want to add the photo
  * @returns the connection made between photo and album
  */
-export const connectPhotos = async (albumId: number, photoIds?: connectPhotosData) => {
+export const connectPhotos = async (albumId: number, photoIds: connectPhotosData) => {
 
 	return await prisma.album.update({
 		where: {

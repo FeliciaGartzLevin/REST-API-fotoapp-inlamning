@@ -2,7 +2,6 @@
  * Validation Rules for Photo
  */
 import { body } from 'express-validator'
-import { getUserById } from '../services/user_service'
 import Debug from 'debug'
 
 // Create a new debug instance
