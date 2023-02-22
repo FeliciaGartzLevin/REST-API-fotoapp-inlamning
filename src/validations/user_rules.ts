@@ -10,6 +10,7 @@ const debug = Debug('mi-REST-API-fotoapp:user_rules')
 
 export const createUserRules = [
 	body('email')
+		.trim()
 		.exists()
 			.withMessage('email is required')
 			.bail()
@@ -26,6 +27,7 @@ export const createUserRules = [
 		}
 	}),
 	body('password')
+		.trim()
 		.exists()
 			.withMessage('password is required')
 			.bail()
@@ -35,6 +37,7 @@ export const createUserRules = [
 		.isLength({min:6})
 			.withMessage('password must be at least 3 chars long'),
     body('first_name')
+		.trim()
 		.exists()
 			.withMessage('first_name is required')
 			.bail()
@@ -44,6 +47,7 @@ export const createUserRules = [
 		.isLength({min:3})
 			.withMessage('first_name must be at least 3 chars long'),
 	body('last_name')
+		.trim()
 		.exists()
 			.withMessage('last_name is required')
 			.bail()
@@ -56,6 +60,7 @@ export const createUserRules = [
 
 export const loginUserRules = [
     body('email')
+		.trim()
 		.exists()
 			.withMessage('email is required')
 			.bail()
@@ -72,6 +77,7 @@ export const loginUserRules = [
 		}
 	}),
 	body('password')
+		.trim()
 		.exists()
 			.withMessage('password is required')
 			.bail()
@@ -84,6 +90,7 @@ export const loginUserRules = [
 
 export const updateUserRules = [
 	body('email')
+		.trim()
 		.optional()
 		.isEmail()
 			.withMessage('email has to be a valid email-adress')
@@ -98,6 +105,7 @@ export const updateUserRules = [
 			}
 		}),
 	body('password')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('password has to be made up of letters or numbers')
@@ -105,6 +113,7 @@ export const updateUserRules = [
 		.isLength({min:6})
 			.withMessage('password must be at least 6 chars long'),
     body('first_name')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('first_name has to be made up of letters or numbers')
@@ -112,6 +121,7 @@ export const updateUserRules = [
 		.isLength({min:3})
 			.withMessage('first_name must be at least 3 chars long'),
 	body('last_name')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('last_name has to be made up of letters or numbers')

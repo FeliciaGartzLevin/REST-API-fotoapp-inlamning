@@ -11,6 +11,7 @@ const debug = Debug('mi-REST-API-fotoapp:photo_rules')
 
 export const createPhotoRules = [
 	body('title')
+		.trim()
 		.exists()
 			.withMessage('Title is required')
 			.bail()
@@ -20,12 +21,14 @@ export const createPhotoRules = [
 		.isLength({min:3})
 			.withMessage('Title must be at least 3 chars long'),
 	body('url')
+		.trim()
 		.exists()
 			.withMessage('URL is required')
 			.bail()
 		.isURL()
 			.withMessage('URL has to be a valid URL-adress'),
     body('comment')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('Comment must be made up of letters')
@@ -36,6 +39,7 @@ export const createPhotoRules = [
 
 export const updatePhotoRules = [
 	body('title')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('Title has to be made up of letters or numbers')
@@ -43,10 +47,12 @@ export const updatePhotoRules = [
 		.isLength({min:3})
 			.withMessage('Title must be at least 3 chars long'),
 	body('url')
+		.trim()
 		.optional()
 		.isURL()
 			.withMessage('URL has to be a valid URL-adress'),
     body('comment')
+		.trim()
 		.optional()
 		.isString()
 			.withMessage('Comment must be made up of letters')

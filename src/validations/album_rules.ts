@@ -7,6 +7,7 @@ import { Request } from 'express'
 
 export const createAlbumRules = [
 	body('title')
+		.trim()
 		.exists()
 			.withMessage('Title is required')
 			.bail()
@@ -19,6 +20,7 @@ export const createAlbumRules = [
 
 export const updateAlbumRules = [
 	body('title')
+		.trim()
 		.exists()
 			.withMessage('Title is requied')
 			.bail()
