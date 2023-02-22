@@ -1,7 +1,6 @@
 /**
  * Photo Controller
  */
-import { NotFoundError } from '@prisma/client/runtime'
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'

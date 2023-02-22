@@ -6,7 +6,6 @@ import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { connectPhotos, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
 import { getPhoto, getPhotos } from '../services/photo_service'
-import { connectPhotosData } from '../types'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
@@ -101,7 +100,9 @@ export const update = async (req: Request, res: Response) => {
     const validatedData = matchedData(req)
 
     try {
+        // checking that the given album exists on the user
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+		// updating album in the db
         const album = await updateAlbum(foundAlbum.id, validatedData)
 
         res.send({
@@ -144,7 +145,7 @@ export const addToAlbum = async (req: Request, res: Response) => {
         // checking if the photos in the req exists on the user
         const allPhotosIncluded = validatedData.photo_id.every((photoId: number) => {
             return usersPhotos.find(userPhoto => userPhoto.id === photoId) !== undefined
-          })
+        })
 
         // if not 
         if (!allPhotosIncluded) {
@@ -161,7 +162,7 @@ export const addToAlbum = async (req: Request, res: Response) => {
             }
         })
 
-		// calling function from album_service to connect photos to album in the db
+		// connecting photos to album in the db
         await connectPhotos(foundAlbum.id, photoIds)
 
         res.send({
