@@ -5,7 +5,7 @@ import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import { connectPhotos, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
-import { getPhoto } from '../services/photo_service'
+import { getPhoto, getPhotos } from '../services/photo_service'
 import { connectPhotosData } from '../types'
 
 // Create a new debug instance
@@ -135,14 +135,33 @@ export const addToAlbum = async (req: Request, res: Response) => {
     debug('The validated data: ', validatedData)
 
     try {
+        // checking that the given album exists on the user
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+
+        // getting the photos of the user
+        const usersPhotos = await getPhotos(req.token!.sub)
+
+        // checking if the photos in the req exists on the user
+        const allPhotosIncluded = validatedData.photo_id.every((photoId: number) => {
+            return usersPhotos.find(userPhoto => userPhoto.id === photoId) !== undefined
+          })
+
+        // if not 
+        if (!allPhotosIncluded) {
+            return res.status(400).send({
+                status: "fail",
+                message: "One or more photo_id doesn't exist on this user.",
+            })
+        }
+        
+        // if all photo_ids existed on the user, return an object with key value pair to be used in connectPhotos function
         const photoIds = validatedData.photo_id.map((photoId: Number) => {
             return {
-                id: Number(photoId),
+                id: photoId,
             }
-            
         })
-		// calling album service to connect photo to album in the db
+
+		// calling function from album_service to connect photos to album in the db
         await connectPhotos(foundAlbum.id, photoIds)
 
         res.send({
@@ -166,7 +185,7 @@ export const remove = async (req: Request, res: Response) => {
     try {
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
         const foundPhoto = await getPhoto(photoId, req.token!.sub)
-        const album = await removePhoto(foundAlbum.id, foundPhoto.id)
+        await removePhoto(foundAlbum.id, foundPhoto.id)
 
         res.send({
             status: "success",
