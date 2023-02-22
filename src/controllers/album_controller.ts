@@ -4,7 +4,8 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { connectPhoto, createAlbum, getAlbum, getAlbums, updateAlbum } from '../services/album_service'
+import { connectPhotos, createAlbum, deleteAlbum, getAlbum, getAlbums, removePhoto, updateAlbum } from '../services/album_service'
+import { getPhoto, getPhotos } from '../services/photo_service'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:album_controller')
@@ -99,7 +100,9 @@ export const update = async (req: Request, res: Response) => {
     const validatedData = matchedData(req)
 
     try {
+        // checking that the given album exists on the user
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+		// updating album in the db
         const album = await updateAlbum(foundAlbum.id, validatedData)
 
         res.send({
@@ -114,7 +117,7 @@ export const update = async (req: Request, res: Response) => {
 }
 
 /**
- * Add a photo to an album beloning to the authorized user
+ * Add several photos to an album belonging to the authorized user
  */
 export const addToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId)
@@ -130,12 +133,37 @@ export const addToAlbum = async (req: Request, res: Response) => {
 
     // Get only the validated data from the request
     const validatedData = matchedData(req)
+    debug('The validated data: ', validatedData)
 
     try {
+        // checking that the given album exists on the user
 		const foundAlbum = await getAlbum(albumId, req.token!.sub)
 
-		// calling album service to connect photo to album in the db
-        await connectPhoto(foundAlbum.id, Number(validatedData.photo_id))
+        // getting the photos of the user
+        const usersPhotos = await getPhotos(req.token!.sub)
+
+        // checking if the photos in the req exists on the user
+        const allPhotosIncluded = validatedData.photo_id.every((photoId: number) => {
+            return usersPhotos.find(userPhoto => userPhoto.id === photoId) !== undefined
+        })
+
+        // if not 
+        if (!allPhotosIncluded) {
+            return res.status(400).send({
+                status: "fail",
+                message: "One or more photo_id doesn't exist on this user.",
+            })
+        }
+        
+        // if all photo_ids existed on the user, return an object with key value pair to be used in connectPhotos function
+        const photoIds = validatedData.photo_id.map((photoId: Number) => {
+            return {
+                id: photoId,
+            }
+        })
+
+		// connecting photos to album in the db
+        await connectPhotos(foundAlbum.id, photoIds)
 
         res.send({
             status: "success",
@@ -148,10 +176,48 @@ export const addToAlbum = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * Delete a photo from an album for the authorized user
+ */
+export const remove = async (req: Request, res: Response) => {
+    const albumId = Number(req.params.albumId)
+    const photoId = Number(req.params.photoId)
+
+    try {
+		const foundAlbum = await getAlbum(albumId, req.token!.sub)
+        const foundPhoto = await getPhoto(photoId, req.token!.sub)
+        await removePhoto(foundAlbum.id, foundPhoto.id)
+
+        res.send({
+            status: "success",
+            data: null,
+        })
+
+    } catch (err) {
+        debug("Error thrown when deleting photo with id %o from album with id %o: %o", photoId, albumId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
+}
+
 
 /**
  * Delete an album for the authorized user
  */
 export const destroy = async (req: Request, res: Response) => {
+    const albumId = Number(req.params.albumId)
+
+	try {
+		const foundAlbumId = await getAlbum(albumId, req.token!.sub)
+        await deleteAlbum(foundAlbumId.id)
+
+        res.send({
+            status: "success",
+            data: null,
+        })
+		
+	} catch (err) {
+        debug("Error thrown when deleting album with id %o: %o", albumId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
 }
 

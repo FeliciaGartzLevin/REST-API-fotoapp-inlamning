@@ -58,13 +58,18 @@ export const createPhoto = async (data: CreatePhotoData) => {
 }
 
 export const updatePhoto = async (photoId: number, data: UpdatePhotoData) => {
-
 	return await prisma.photo.update({
 		where: {
 			id: photoId,
 		  },
 		  data,
 	})
+}
 
-	
+export const deletePhoto = async (photoId: number) => {
+	return  await prisma.photo.delete({
+		where: {
+		  id: photoId,
+		},
+	})
 }

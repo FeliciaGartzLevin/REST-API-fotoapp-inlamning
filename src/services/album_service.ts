@@ -2,7 +2,7 @@
  * Album Service
  */
 import prisma from '../prisma'
-import { connectPhotoData, CreateAlbumData, UpdateAlbumData } from "../types"
+import { connectPhotosData, CreateAlbumData, UpdateAlbumData } from "../types"
 
 /**
  * Get all albums
@@ -77,13 +77,43 @@ export const updateAlbum = async (albumId: number, data: UpdateAlbumData) => {
  * @param albumId the album to which the user want to add the photo
  * @returns the connection made between photo and album
  */
-export const connectPhoto = async (albumId: number, photoId: number) => {
+export const connectPhotos = async (albumId: number, photoIds?: connectPhotosData) => {
+
 	return await prisma.album.update({
 		where: {
 			id: albumId
 		},
 		data: {
-		photos: {connect: { id: photoId} }	
+			photos: {
+				connect:  photoIds, 
+			}
+		},
+	})
+}
+
+/**
+ * Remove a photo from an album without deleting it
+ * @param albumId the album from which the user want to remove the photo
+ * @param photoId of the photo the user wants to remove from the album
+ */
+ export const removePhoto = async (albumId: number, photoId: number) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId,
+		},
+		data: {
+			photos: {disconnect: { id: photoId } }	
 		}
+	})
+}
+
+/**
+ * 
+ */
+export const deleteAlbum = async (albumId:number) => {
+	return  await prisma.album.delete({
+		where: {
+		  id: albumId,
+		},
 	})
 }

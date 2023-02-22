@@ -1,11 +1,10 @@
 /**
  * Photo Controller
  */
-import { NotFoundError } from '@prisma/client/runtime'
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
-import { getPhoto, getPhotos, createPhoto, updatePhoto } from '../services/photo_service'
+import { getPhoto, getPhotos, createPhoto, updatePhoto, deletePhoto } from '../services/photo_service'
 
 // Create a new debug instance
 const debug = Debug('mi-REST-API-fotoapp:photo_controller')
@@ -120,4 +119,20 @@ export const update = async (req: Request, res: Response) => {
  * Delete a photo for the authorized user
  */
 export const destroy = async (req: Request, res: Response) => {
+	const photoId = Number(req.params.photoId)
+
+	try {
+		const foundPhotoId = await getPhoto(photoId, req.token!.sub)
+        await deletePhoto(foundPhotoId.id)
+
+        res.send({
+            status: "success",
+            data: null,
+        })
+
+		
+	} catch (err) {
+        debug("Error thrown when deleting photo with id %o: %o", req.params.photoId, err)
+        return res.status(404).send({ status: "error", message: "Not found" })
+    }
 }

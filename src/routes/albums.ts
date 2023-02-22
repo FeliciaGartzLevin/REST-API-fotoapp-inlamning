@@ -2,9 +2,9 @@
  * Photo Albums Router
  */
 import express from 'express'
-import { connectPhotoRules, createAlbumRules, updateAlbumRules } from '../validations/album_rules'
+import { connectPhotosRules, createAlbumRules, updateAlbumRules } from '../validations/album_rules'
 import { validateToken } from '../middlewares/auth/jwt'
-import { index, show, store, update, destroy, addToAlbum } from '../controllers/album_controller'
+import { index, show, store, update, destroy, addToAlbum, remove } from '../controllers/album_controller'
 const router = express.Router()
 
 /**
@@ -34,24 +34,24 @@ router.patch('/:albumId', updateAlbumRules, update)
 
 /**
  * POST	/albums/:albumId/photos	logik:✅ funkar:✅
- * ([VG]: Add multiple photos an album at once)
+ * ([VG]: Add multiple photos an album at once)  logik: ❔ funkar: ❔
  * 
  * Add a photo to an album for the authorized user
  */
-router.post('/:albumId/photos', connectPhotoRules, addToAlbum)
+router.post('/:albumId/photos', connectPhotosRules, addToAlbum)
 
 
 /**
  * ([VG]:)
  * DELETE /albums/:albumId/photos/:photoId
- * Remove a photo from an album
+ * Remove a photo from an album  logik:✅ funkar:✅
  */
-router.delete('/:albumId/photos/:photoId', destroy /* ? */)
+router.delete('/:albumId/photos/:photoId', remove)
 
 /**
  * ([VG]:)
  * DELETE /albums/:albumId 
- * 	Delete an album
+ * 	Delete an album  logik: ❔ funkar: ❔
  */
 router.delete('/:albumId', destroy)
 

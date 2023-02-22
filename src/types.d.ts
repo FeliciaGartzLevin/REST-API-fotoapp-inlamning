@@ -2,9 +2,10 @@
  * Type Definitions
  */
 
-export type connectPhotoData = {
-	photo_id: number,
+export type connectPhotosData = {
+	id: number,
 }
+
 
 export type CreatePhotoData = {
 	title: string,
