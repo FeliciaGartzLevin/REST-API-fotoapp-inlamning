@@ -1,4 +1,11 @@
-# FED22 API-utveckling Prisma Boilerplate
+#FED22 API-utveckling Photoapp
+
+A photo-app made with RESTful API which is following CRUD and JSend standards. It has different endpoints, CRUD operations and JsonWebToken validation inclusive refresh tokens. 
+The code is backend code that with the help of eg Postman let's you create several users, add photos and albums that only the posting user can see, add several photos to a users own albums, delete album but not the photos inside, delete photos, update album och photos. All user requests is being validated.
+
+
+
+## FED22 API-utveckling Prisma Boilerplate instructions below
 
 This is a starter template/boilerplate for a TypeScript Node.js REST API using Express, Prisma and Express-validator.
 
