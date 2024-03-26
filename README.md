@@ -5,7 +5,7 @@ The code is backend code that with the help of eg Postman let's you create sever
 
 
 
-## FED22 API-utveckling Prisma Boilerplate instructions below
+## Task from the teacher: FED22 API-utveckling Prisma Boilerplate instructions below
 
 This is a starter template/boilerplate for a TypeScript Node.js REST API using Express, Prisma and Express-validator.
 
